@@ -14,6 +14,8 @@ void fd(int distance) //function for moving car fd
   car.setSpeed(LEFT, 50);
   car.setSpeed(RIGHT, 50);
   delay(distance); //This constant is yet to be worked out
+  car.setSpeed(LEFT, 0);
+  car.setSpeed(RIGHT, 0);
 }
 
 void bk(int distance)// function for moving car bk
@@ -22,7 +24,9 @@ void bk(int distance)// function for moving car bk
   car.setDirection(RIGHT, backwards);
   car.setSpeed(LEFT, 50);
   car.setSpeed(RIGHT, 50);
-  delay(distance); //This constant is yet to be worked out 
+  delay(distance); //This constant is yet to be worked out
+  car.setSpeed(LEFT, 0);
+  car.setSpeed(RIGHT, 0);
 }
 
 void rt(int angle)// function for turning rt
@@ -32,7 +36,8 @@ void rt(int angle)// function for turning rt
   car.setSpeed(LEFT, 50);
   car.setSpeed(RIGHT, 50);
   delay(angle); //These constants are yet to be worked out
-  
+  car.setSpeed(LEFT, 0);
+  car.setSpeed(RIGHT, 0);
 }
 
 void lt(int angle)
@@ -42,6 +47,8 @@ void lt(int angle)
   car.setSpeed(LEFT, 50);
   car.setSpeed(RIGHT, 50);
   delay(angle); //These constants are yet to be worked out
+  car.setSpeed(LEFT, 0);
+  car.setSpeed(RIGHT, 0);
 }
 
 
@@ -57,7 +64,10 @@ void setup() {
   Wire.onReceive(receiveEvent);
   Serial.begin(9600);
 
-  fd(1000);
+  fd(5000);
+  bk(5000);
+  rt(1000);
+  lt(1000);
   
 }
 
