@@ -44,32 +44,24 @@ void setup()
 
 void loop()
 {
-  /* TODO -  add your own code to process the recieved RF data */
- 
-
-  /* TODO -  add your own code to read the joystick data and transmit */
+  delay(100);
   
-  // Stop listening so we can transmi
   int xValue; 
   int yValue;
    
   xValue = analogRead(joyX);
+  radio.write("x", sizeof(char));
   radio.write(&xValue,  sizeof(int));
-
   Serial.print("X Value ");
-  Serial.println(xValue);
+  Serial.print(xValue);
 
   delay(100);
   
-  
-  yValue = analogRead(joyY); 
+  yValue = analogRead(joyY);
+  radio.write("y", sizeof(char));
   radio.write(&yValue, sizeof(int));
-  
   Serial.print("Y value ");
   Serial.println(yValue);
-
-  delay(100);
-   // Start listening again
 }
 
 void writeToI2C(char device, char command, int parameter)

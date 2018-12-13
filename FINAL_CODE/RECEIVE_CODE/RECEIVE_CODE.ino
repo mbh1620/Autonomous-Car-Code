@@ -39,7 +39,7 @@ void setup()
 
 void loop()
 {
-  /* TODO - add your own code to process the recieved RF data */
+ 
   if (radio.available())
   {
     while (radio.available())   //Read the full data packet
@@ -49,14 +49,29 @@ void loop()
 
     int test = rfPacket[0];   // Do something with the data... e.g. reconstuct an integer and display on the serial monitor
     test |= rfPacket[1] << 8;
-    Serial.print("Radio value: "); Serial.println(test);
-
+    Serial.print("Y value: "); 
+    Serial.print(test);
+   
+    writeToI2C(CAR, 'Y', test);
+   }
+   
+  delay(100);
+  
+  if (radio.available())
+  {
+    while (radio.available())   //Read the full data packet
+    {
+      radio.read(&rfPacket, PAYLOADSIZE);  // rfPacket contains the data recieved from the remote as bytes
+    }
+  
+    int test2 = rfPacket[0];   // Do something with the data... e.g. reconstuct an integer and display on the serial monitor
+    test2 |= rfPacket[1] << 8;
+    Serial.print("X value: "); 
+    Serial.println(test2);
     
-
-    
-    
-    /* TODO - Transmit data to the car to control it (e.g. left/right motor base speeds) */
-  }
+    writeToI2C(CAR, 'X', test2);
+    delay(100);
+  } 
 }
 
 void writeToI2C(char device, char command, int parameter)
