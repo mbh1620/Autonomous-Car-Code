@@ -1,6 +1,10 @@
 #include <Wire.h>
 #include <H61AEE_S01.h>
 
+boolean commandflag = false;
+char c = 'a';
+int param=0;
+
 
 //Global Variables
 Vehicle car;
@@ -72,36 +76,9 @@ void setup() {
 }
 
 void loop() {
-  delay(100);
-}
-
-//Function for when data is recieved from Raspberry Pi
-
-void receiveEvent(int howMany)
-{
-  char datarr[200];
-  for (int b = 0; b < 200; b++)
-  {
-    datarr[b] = 0; 
-  }
-  char c = 'a';
-  int i=0;
-  int param=0;
-  while ( (c = Wire.read()) != '.')
-  {
-    if ( ( c > 32 ) && ( c < 123 ))
-    {
-      datarr[i++]= c;
-      Serial.print(c);
-    }
-  }
-  Serial.print(" All read");
-  
-
-  // "F:100."
-  sscanf(datarr,"%c:%d", &c, &param);
-
-  switch (c)
+  if (commandflag)
+ {
+   switch (c)
   {
     case 'F' :  Serial.print("Forward");
                 Serial.print(param);
@@ -124,5 +101,40 @@ void receiveEvent(int howMany)
                 
                 break;
   }
+  
+  commandflag = false;
+ }
+ 
+}
+
+//Function for when data is recieved from Raspberry Pi
+
+void receiveEvent(int howMany)
+{
+  char datarr[200];
+  for (int b = 0; b < 200; b++)
+  {
+    datarr[b] = 0; 
+  }
+  
+  int i=0;
+  
+  while ( (c = Wire.read()) != '.')
+  {
+    if ( ( c > 32 ) && ( c < 123 ))
+    {
+      datarr[i++]= c;
+      Serial.print(c);
+    }
+  }
+  Serial.print(" All read");
+  
+
+  // "F:100."
+  sscanf(datarr,"%c:%d", &c, &param);
+  
+  commandflag = true;
+
+  
 }
 
